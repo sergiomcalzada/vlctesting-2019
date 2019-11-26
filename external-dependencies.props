@@ -1,0 +1,77 @@
+<Project>
+  <PropertyGroup Label="Aspnet Core">  	
+    <MicrosoftAspNetWebApiClient>5.2.7</MicrosoftAspNetWebApiClient>
+	<MicrosoftAspNetCoreAuthenticationJwtBearer>3.0.0</MicrosoftAspNetCoreAuthenticationJwtBearer>
+	<SwashbuckleAspNetCore>5.0.0-rc4</SwashbuckleAspNetCore>	
+	<AspNetCoreHealthChecksUI>3.0.0</AspNetCoreHealthChecksUI>
+	<SerilogAspNetCore>3.1.0</SerilogAspNetCore>
+	<SerilogSinksApplicationInsights>3.0.4</SerilogSinksApplicationInsights>
+  </PropertyGroup>
+  <PropertyGroup Label="Microsoft ApplicationInsights">
+    <MicrosoftApplicationInsightsAspNetCore>2.8.0</MicrosoftApplicationInsightsAspNetCore>   
+  </PropertyGroup>
+  <PropertyGroup Label="Entity Framework Core">
+    <MicrosoftEntityFrameworkCoreInMemory>3.0.0</MicrosoftEntityFrameworkCoreInMemory>
+    <MicrosoftEntityFrameworkCore>3.0.0</MicrosoftEntityFrameworkCore>
+    <MicrosoftEntityFrameworkCoreRelational>3.0.0</MicrosoftEntityFrameworkCoreRelational>
+    <MicrosoftEntityFrameworkCoreSqlite>3.0.0</MicrosoftEntityFrameworkCoreSqlite>
+    <MicrosoftEntityFrameworkCoreSqlServer>3.0.0</MicrosoftEntityFrameworkCoreSqlServer>
+  </PropertyGroup>  
+  <PropertyGroup Label="Microsoft Azure">
+    <MicrosoftAzureServiceBus>4.0.0</MicrosoftAzureServiceBus>     
+    <MicrosoftAzureStorageBlob>11.0.1</MicrosoftAzureStorageBlob>   
+  </PropertyGroup>
+  <PropertyGroup Label="Microsoft Extensions">
+    <MicrosoftExtensionsLoggingAbstractions>3.0.0</MicrosoftExtensionsLoggingAbstractions>
+    <MicrosoftExtensionsLogging>3.0.0</MicrosoftExtensionsLogging>
+	<MicrosoftExtensionsLoggingDebug>3.0.0</MicrosoftExtensionsLoggingDebug>
+    <MicrosoftExtensionsLoggingConsole>3.0.0</MicrosoftExtensionsLoggingConsole>
+    <MicrosoftExtensionsDependencyInjection>3.0.0</MicrosoftExtensionsDependencyInjection>
+	<MicrosoftExtensionsDependencyInjectionAbstractions>3.0.0</MicrosoftExtensionsDependencyInjectionAbstractions>  
+	<MicrosoftExtensionsOptionsConfigurationExtensions>3.0.0</MicrosoftExtensionsOptionsConfigurationExtensions>
+	<MicrosoftExtensionsConfigurationJson>3.0.0</MicrosoftExtensionsConfigurationJson>
+	<MicrosoftExtensionsConfigurationAzureKeyVaultVersion>3.0.0</MicrosoftExtensionsConfigurationAzureKeyVaultVersion>
+	<MicrosoftExtensionsPlatformAbstractions>1.1.0</MicrosoftExtensionsPlatformAbstractions>
+  </PropertyGroup>
+  <PropertyGroup Label="Amazon">
+	<AWSSDKS3>3.3.104.31</AWSSDKS3>
+  </PropertyGroup>
+  <PropertyGroup Label="JWT">
+    <SystemIdentityModelTokensJwt>5.5.0</SystemIdentityModelTokensJwt>   
+  </PropertyGroup>
+  <PropertyGroup Label="SQL">
+    <SystemDataSqlClient>4.4.0</SystemDataSqlClient>   
+  </PropertyGroup>
+  <PropertyGroup Label="Testing">
+    <MicrosoftNETTestSdk>16.3.0</MicrosoftNETTestSdk>
+	<xunit>2.4.1</xunit> 
+	<xunitrunnervisualstudio>2.4.1</xunitrunnervisualstudio>
+	<dotnetxunit>2.3.1</dotnetxunit>
+	<MicrosoftAspNetCoreTestHost>3.0.0</MicrosoftAspNetCoreTestHost>
+	<Moq>4.13.0</Moq>
+	<coverletmsbuild>2.7.0</coverletmsbuild>
+	<AcheveTestHost>3.0.0</AcheveTestHost>
+	<Respawn>3.2.0</Respawn>
+  </PropertyGroup>
+  <PropertyGroup Label="System">
+    <MicrosoftCSharp>4.6.0</MicrosoftCSharp>
+    <SystemComponentModelAnnotations>4.6.0</SystemComponentModelAnnotations>   
+	<SystemTextJson>4.6.0</SystemTextJson>
+  </PropertyGroup>
+  <PropertyGroup Label="Ping">
+    <SystemNetPing>4.3.0</SystemNetPing>   
+  </PropertyGroup>
+  <PropertyGroup Label="Newtonsoft.Json">
+    <NewtonsoftJson>12.0.2</NewtonsoftJson>   
+  </PropertyGroup>
+   <PropertyGroup Label="AutoMapper">
+    <AutoMapper>9.0.0</AutoMapper>   
+    <AutoMapperExtensionsMicrosoftDependencyInjection>7.0.0</AutoMapperExtensionsMicrosoftDependencyInjection>   
+  </PropertyGroup>  
+  <PropertyGroup Label="SendGrid">
+    <SendGrid>9.12.0</SendGrid>   
+  </PropertyGroup>  
+  <PropertyGroup Label="Document">
+    <CsvHelperVersion>12.1.2</CsvHelperVersion>  
+  </PropertyGroup>  
+</Project>

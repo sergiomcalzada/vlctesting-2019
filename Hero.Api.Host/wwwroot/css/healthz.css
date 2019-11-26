@@ -1,0 +1,13 @@
+﻿:root {
+    --primaryColor: #0056b3;
+    --secondaryColor: #f4f4f4;
+    --bgMenuActive: #0056b3;
+    --bgButton: #0056b3;
+    --logoImageUrl: url('/img/logo-white.png');
+    --bgAside: var(--primaryColor);
+}
+
+    :root .hc-aside__logo {
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
