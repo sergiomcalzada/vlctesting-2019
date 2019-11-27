@@ -41,7 +41,6 @@ steps:
 - task: PublishCodeCoverageResults@1
   name: 'DotNetCoveragePublish'
   displayName: 'Test - Publish coverage report'
-  condition: and(succeeded(), eq(variables['displayImageName'], 'windows'))  
   inputs:
     codeCoverageTool: cobertura
     summaryFileLocation: $(coverageRootPath)/**/*.xml
