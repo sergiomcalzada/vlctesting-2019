@@ -26,12 +26,12 @@ strategy:
       sdk: 'sdk_30'
       redis: redis_alpine4
       sqlserver: sqlserver2017      
-    # sdk31_redis5_sql2017: 
-    #   imageName: 'ubuntu-18.04'     
-    #   displayImageName: 'sdk30_redis5_sql2017'
-    #   sdk: 'sdk_31_preview'
-    #   redis: redis_alpine5
-    #   sqlserver: sqlserver2017    
+    sdk31_redis5_sql2017: 
+      imageName: 'ubuntu-18.04'     
+      displayImageName: 'sdk30_redis5_sql2017'
+      sdk: 'sdk_31_preview'
+      redis: redis_alpine5
+      sqlserver: sqlserver2017    
 
 services:
   redis: $[variables['redis']] 
@@ -74,7 +74,7 @@ steps:
   inputs:
     command: test
     projects: '$(testProject)'
-    arguments: '-c $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"json,cobertura\"" /p:CoverletOutput="$(coverageRootPath)/" /p:MergeWith="$(coverageRootPath)/coverage.json" "/p:Exclude=\"[*.Test]*,[xunit.*]*,[*]System.*\""'
+    arguments: '-c $(buildConfiguration) /p:CollectCoverage=false "/p:CoverletOutputFormat=\"json,cobertura\"" /p:CoverletOutput="$(coverageRootPath)/" /p:MergeWith="$(coverageRootPath)/coverage.json" "/p:Exclude=\"[*.Test]*,[xunit.*]*,[*]System.*\""'
 
 - task: PublishCodeCoverageResults@1
   name: 'DotNetCoveragePublish'
