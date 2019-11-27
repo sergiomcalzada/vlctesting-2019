@@ -12,11 +12,11 @@ resources:
     - container: sdk_30
       image: mcr.microsoft.com/dotnet/core/sdk:3.0
       voulumes:
-      - $(System.DefaultWorkingDirectory)/TestResults/Coverage:/TestResults/Coverage
+      - $(System.DefaultWorkingDirectory)/TestResults/Coverage:/var/TestResults/Coverage
     - container: sdk_31_preview
       image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-preview3  
       voulumes:
-      - $(System.DefaultWorkingDirectory)/TestResults/Coverage:/TestResults/Coverage
+      - $(System.DefaultWorkingDirectory)/TestResults/Coverage:/var/TestResults/Coverage
 
 strategy:
   matrix:
@@ -26,12 +26,12 @@ strategy:
       sdk: 'sdk_30'
       redis: redis_alpine4
       sqlserver: sqlserver2017      
-    sdk31_redis5_sql2017: 
-      imageName: 'ubuntu-18.04'     
-      displayImageName: 'sdk30_redis5_sql2017'
-      sdk: 'sdk_31_preview'
-      redis: redis_alpine5
-      sqlserver: sqlserver2017    
+    # sdk31_redis5_sql2017: 
+    #   imageName: 'ubuntu-18.04'     
+    #   displayImageName: 'sdk30_redis5_sql2017'
+    #   sdk: 'sdk_31_preview'
+    #   redis: redis_alpine5
+    #   sqlserver: sqlserver2017    
 
 services:
   redis: $[variables['redis']] 
@@ -47,7 +47,7 @@ variables:
   solution: '**/*.sln'    
   testProject: '**/*.WebTest.csproj'  
   buildNumer: "$[variables['Build.BuildNumber']]"
-  coverageRootPath: "/TestResults/Coverage"
+  coverageRootPath: "/var/TestResults/Coverage"
   Redis__IsEnabled: true
   Redis__Configuration: 'redis'
   ConnectionStrings__DefaultConnection: 'Server=sqlserver;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
