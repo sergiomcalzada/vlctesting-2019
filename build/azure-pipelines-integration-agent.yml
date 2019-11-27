@@ -18,18 +18,18 @@ resources:
     - container: sdk_30
       image: mcr.microsoft.com/dotnet/core/sdk:3.0
     - container: sdk_31_preview
-      image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-preview3-alpine
-
-       
+      image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-preview3-alpine  
 
 strategy:
   matrix:
-    sdk30_redis4_sql2017:      
+    sdk30_redis4_sql2017:  
+      imageName: 'ubuntu-18.04'    
       displayImageName: 'sdk30_redis4_sql2017'
       sdk: 'sdk_30'
       redis: redis_alpine4
       sqlserver: sqlserver2017      
-    sdk31_redis5_sql2017:      
+    sdk31_redis5_sql2017: 
+      imageName: 'ubuntu-18.04'     
       displayImageName: 'sdk30_redis5_sql2017'
       sdk: 'sdk_31_preview'
       redis: redis_alpine5
@@ -38,7 +38,9 @@ strategy:
 services:
   redis: $[variables['redis']] 
   sqlserver: $[variables['sqlserver']]
-  sdk: $[variables['sdk']]
+
+pool:
+  vmImage: $[variables['imageName']] 
 
 container: $[variables['sdk']]   
 
