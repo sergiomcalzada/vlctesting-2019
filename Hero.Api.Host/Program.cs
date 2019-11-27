@@ -31,14 +31,8 @@ namespace Hero.Api.Host
 
                 using (var scope = host.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    //var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-                    //await dbContext.Database.EnsureCreatedAsync();
-
-                    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-                    var isEnabled = configuration.GetValue("Redis:IsEnabled", false);
-                    var redisConfig = configuration.GetValue("Redis:Configuration", "localhost");
-                    Log.Logger.Information("Enabled (){isEnabled} on {config}", isEnabled, redisConfig);
-
+                    var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                    await dbContext.Database.EnsureCreatedAsync();
                 }
 
 

@@ -28,12 +28,12 @@ strategy:
       sdk: 'sdk_30'
       redis: redis_alpine4
       sqlserver: sqlserver2017      
-    sdk31_redis5_sql2017: 
-      imageName: 'ubuntu-18.04'     
-      displayImageName: 'sdk30_redis5_sql2017'
-      sdk: 'sdk_31_preview'
-      redis: redis_alpine5
-      sqlserver: sqlserver2017    
+    # sdk31_redis5_sql2017: 
+    #   imageName: 'ubuntu-18.04'     
+    #   displayImageName: 'sdk30_redis5_sql2017'
+    #   sdk: 'sdk_31_preview'
+    #   redis: redis_alpine5
+    #   sqlserver: sqlserver2017    
 
 services:
   redis: $[variables['redis']] 
@@ -51,8 +51,8 @@ variables:
   buildNumer: "$[variables['Build.BuildNumber']]"
   coverageRootPath: "$(System.DefaultWorkingDirectory)/TestResults/Coverage"
   Redis__IsEnabled: true
-  Redis__Configuration: 'redis:5000'
-  ConnectionStrings__DefaultConnection: 'Server=sqlserver,5001;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
+  Redis__Configuration: 'localhost:5000'
+  ConnectionStrings__DefaultConnection: 'Server=localhost,5001;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
 
 steps:
 - task: DotNetCoreCLI@2

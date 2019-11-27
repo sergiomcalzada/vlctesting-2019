@@ -29,6 +29,16 @@ namespace Hero.Api.WebTest
             {
                 using (var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>())
                 {
+                    
+                    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                    var isEnabled = configuration.GetValue("Redis:IsEnabled", false);
+                    var redisConfig = configuration.GetValue("Redis:Configuration", "localhost");
+                    outputHelper.WriteLine($"Enabled ({isEnabled}) on {redisConfig}", isEnabled, redisConfig);
+
+                    var conn_string = configuration.GetConnectionString("DefaultConnection");
+                    outputHelper.WriteLine($"conn_string ({conn_string})", conn_string);
+
+
                     dbContext.Database.EnsureCreated();
                     dbContext.Database.Migrate();
                     dbContext.Seed();
