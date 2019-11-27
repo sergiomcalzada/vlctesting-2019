@@ -18,7 +18,7 @@ resources:
     - container: sdk_30
       image: mcr.microsoft.com/dotnet/core/sdk:3.0
     - container: sdk_31_preview
-      image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-preview3-alpine  
+      image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-preview3  
 
 strategy:
   matrix:
