@@ -38,8 +38,8 @@ strategy:
 container: $[variables['sdk']]   
 
 services:
-  redis_host: $[variables['redis']] 
-  sql_server: $[variables['sqlserver']]
+  redis: $[variables['redis']] 
+  sql: $[variables['sqlserver']]
 
 variables:    
   buildConfiguration: 'Release'
