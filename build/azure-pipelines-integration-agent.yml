@@ -39,7 +39,7 @@ container: $[variables['sdk']]
 
 services:
   redis: $[variables['redis']] 
-  sql: $[variables['sqlserver']]
+  sqlserver: $[variables['sqlserver']]
 
 variables:    
   buildConfiguration: 'Release'
