@@ -35,11 +35,12 @@ strategy:
       redis: redis_alpine5
       sqlserver: sqlserver2017    
 
-container: $[variables['sdk']]   
-
 services:
   redis: $[variables['redis']] 
   sqlserver: $[variables['sqlserver']]
+  sdk: $[variables['sdk']]
+
+container: $[variables['sdk']]   
 
 variables:    
   buildConfiguration: 'Release'
