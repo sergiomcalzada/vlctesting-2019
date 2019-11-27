@@ -51,8 +51,8 @@ variables:
   buildNumer: "$[variables['Build.BuildNumber']]"
   coverageRootPath: "$(System.DefaultWorkingDirectory)/TestResults/Coverage"
   Redis__IsEnabled: true
-  Redis__Configuration: 'localhost:5000'
-  ConnectionStrings__DefaultConnection: 'Server=localhost,5001;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
+  Redis__Configuration: 'redis:5000'
+  ConnectionStrings__DefaultConnection: 'Server=sqlserver,5001;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
 
 steps:
 - task: DotNetCoreCLI@2
