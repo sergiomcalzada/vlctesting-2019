@@ -52,16 +52,12 @@ variables:
   ConnectionStrings__DefaultConnection: 'Server=sqlserver,5001;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
 
 steps:
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 5.3.1'
+- task: DotNetCoreCLI@2
+  name: 'DotNetRestore'
+  displayName: 'DotNet - Restore'
   inputs:
-    versionSpec: 5.3.1
-
-- task: NuGetCommand@2
-  name: 'NugetRestore'
-  displayName: 'NuGet - Restore'
-  inputs:
-    restoreSolution: '$(solution)'
+    command: 'restore'
+    projects: '$(solution)'
 
 - task: DotNetCoreCLI@2
   name: 'DotNetBuild'
