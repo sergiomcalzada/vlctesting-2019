@@ -1,0 +1,101 @@
+trigger: none
+
+resources:
+  containers:
+    - container: redis_alpine4
+      image: redis:4-alpine  
+      ports:
+        - 5000:6379
+    - container: redis_alpine5
+      image: redis:5-alpine  
+      ports:
+        - 5000:6379
+    - container: sqlserver2017
+      image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu  
+      options: -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Pass@word!"
+      ports:
+        - 5001:1433
+    - container: sqlserver2019
+      image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+      options: -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Pass@word!"
+      ports:
+        - 5001:1433
+
+strategy:
+  matrix:
+    redis4_sql2017:
+      imageName: 'ubuntu-18.04'
+      displayImageName: 'redis4_sql2017'
+      redis: redis_alpine4
+      sqlserver: sqlserver2017      
+    redis4_sql2019:
+      imageName: 'ubuntu-18.04'
+      displayImageName: 'redis4_sql2019'
+      redis: redis_alpine4
+      sqlserver: sqlserver2019      
+    redis5_sql2017:
+      imageName: 'ubuntu-18.04'
+      displayImageName: 'redis5_sql2017'
+      redis: redis_alpine5
+      sqlserver: sqlserver2017
+    redis5_sql2019:
+      imageName: 'ubuntu-18.04'
+      displayImageName: 'redis5_sql2019'
+      redis: redis_alpine5
+      sqlserver: sqlserver2019
+      
+
+services:
+  redis_host: $[variables['redis']] 
+  sql_server: $[variables['sqlserver']]
+
+pool:
+  vmImage: $[variables['imageName']] 
+
+variables:    
+  buildConfiguration: 'Release'
+  solution: '**/*.sln'    
+  testProject: '**/*.WebTest.csproj'  
+  buildNumer: "$[variables['Build.BuildNumber']]"
+  coverageRootPath: "$(System.DefaultWorkingDirectory)/TestResults/Coverage"
+  Redis__IsEnabled: true
+  Redis__Configuration: 'localhost:5000'
+  ConnectionStrings__DefaultConnection: 'Server=localhost,5001;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
+
+steps:
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 5.3.1'
+  inputs:
+    versionSpec: 5.3.1
+
+- task: NuGetCommand@2
+  name: 'NugetRestore'
+  displayName: 'NuGet - Restore'
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  name: 'DotNetBuild'
+  displayName: 'DotNet - Build'
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
+    
+
+- task: DotNetCoreCLI@2
+  name: 'DotNetTest'
+  displayName: 'Test - Execute'
+  inputs:
+    command: test
+    projects: '$(testProject)'
+    arguments: '-c $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"json,cobertura\"" /p:CoverletOutput="$(coverageRootPath)/" /p:MergeWith="$(coverageRootPath)/coverage.json" "/p:Exclude=\"[*.Test]*,[xunit.*]*,[*]System.*\""'
+
+- task: PublishCodeCoverageResults@1
+  name: 'DotNetCoveragePublish'
+  displayName: 'Test - Publish coverage report'
+  condition: and(succeeded(), eq(variables['displayImageName'], 'windows'))  
+  inputs:
+    codeCoverageTool: cobertura
+    summaryFileLocation: $(coverageRootPath)/**/*.xml
+    reportDirectory: $(coverageRootPath)/Reports
+    failIfCoverageEmpty: false

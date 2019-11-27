@@ -1,0 +1,58 @@
+trigger: none
+
+strategy:
+  matrix:
+    Linux:
+      imageName: 'ubuntu-18.04'
+      displayImageName: 'linux'
+    Windows:
+      imageName: 'windows-2019'
+      displayImageName: 'windows'
+
+pool:
+  vmImage: $[variables['imageName']] 
+
+variables:    
+  buildConfiguration: 'Release'
+  solution: '**/*.sln'    
+  testProject: '**/*.Test.csproj'  
+  buildNumer: "$[variables['Build.BuildNumber']]"
+  coverageRootPath: "$(System.DefaultWorkingDirectory)/TestResults/Coverage"
+
+steps:
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 5.3.1'
+  inputs:
+    versionSpec: 5.3.1
+
+- task: NuGetCommand@2
+  name: 'NugetRestore'
+  displayName: 'NuGet - Restore'
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  name: 'DotNetBuild'
+  displayName: 'DotNet - Build'
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
+    
+
+- task: DotNetCoreCLI@2
+  name: 'DotNetTest'
+  displayName: 'Test - Execute'
+  inputs:
+    command: test
+    projects: '$(testProject)'
+    arguments: '-c $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"json,cobertura\"" /p:CoverletOutput="$(coverageRootPath)/" /p:MergeWith="$(coverageRootPath)/coverage.json" "/p:Exclude=\"[*.Test]*,[xunit.*]*,[*]System.*\""'
+
+- task: PublishCodeCoverageResults@1
+  name: 'DotNetCoveragePublish'
+  displayName: 'Test - Publish coverage report'
+  condition: and(succeeded(), eq(variables['displayImageName'], 'windows'))  
+  inputs:
+    codeCoverageTool: cobertura
+    summaryFileLocation: $(coverageRootPath)/**/*.xml
+    reportDirectory: $(coverageRootPath)/Reports
+    failIfCoverageEmpty: false
