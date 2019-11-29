@@ -4,21 +4,19 @@ resources:
   containers:
     - container: redis_alpine4
       image: redis:4-alpine  
-      ports:
-        - 5000:6379
     - container: redis_alpine5
       image: redis:5-alpine  
-      ports:
-        - 5000:6379
     - container: sqlserver2017
       image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu  
       options: -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Pass@word!"
-      ports:
-        - 5001:1433
     - container: sdk_30
       image: mcr.microsoft.com/dotnet/core/sdk:3.0
+      voulumes:
+      - $(System.DefaultWorkingDirectory)/TestResults/Coverage:/var/TestResults/Coverage
     - container: sdk_31_preview
       image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-preview3  
+      voulumes:
+      - $(System.DefaultWorkingDirectory)/TestResults/Coverage:/var/TestResults/Coverage
 
 strategy:
   matrix:
@@ -49,10 +47,10 @@ variables:
   solution: '**/*.sln'    
   testProject: '**/*.WebTest.csproj'  
   buildNumer: "$[variables['Build.BuildNumber']]"
-  coverageRootPath: "$(System.DefaultWorkingDirectory)/TestResults/Coverage"
+  coverageRootPath: "/var/TestResults/Coverage"
   Redis__IsEnabled: true
-  Redis__Configuration: 'redis:5000'
-  ConnectionStrings__DefaultConnection: 'Server=sqlserver,5001;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
+  Redis__Configuration: 'redis'
+  ConnectionStrings__DefaultConnection: 'Server=sqlserver;Initial Catalog=Test;User ID=sa;Password=Pass@word!'
 
 steps:
 - task: DotNetCoreCLI@2
@@ -76,12 +74,11 @@ steps:
   inputs:
     command: test
     projects: '$(testProject)'
-    arguments: '-c $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"json,cobertura\"" /p:CoverletOutput="$(coverageRootPath)/" /p:MergeWith="$(coverageRootPath)/coverage.json" "/p:Exclude=\"[*.Test]*,[xunit.*]*,[*]System.*\""'
+    arguments: '-c $(buildConfiguration) /p:CollectCoverage=false "/p:CoverletOutputFormat=\"json,cobertura\"" /p:CoverletOutput="$(coverageRootPath)/" /p:MergeWith="$(coverageRootPath)/coverage.json" "/p:Exclude=\"[*.Test]*,[xunit.*]*,[*]System.*\""'
 
 - task: PublishCodeCoverageResults@1
   name: 'DotNetCoveragePublish'
   displayName: 'Test - Publish coverage report'
-  condition: and(succeeded(), eq(variables['displayImageName'], 'windows'))  
   inputs:
     codeCoverageTool: cobertura
     summaryFileLocation: $(coverageRootPath)/**/*.xml

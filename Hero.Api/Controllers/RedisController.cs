@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Hero.Api.Controllers
 {
@@ -10,11 +12,15 @@ namespace Hero.Api.Controllers
     [Route("api/[controller]")]
     public class RedisController : Controller
     {
+        private readonly ILogger<RedisController> logger;
         private readonly IDistributedCache cache;
+        private readonly IConfiguration configuration;
 
-        public RedisController(IDistributedCache cache)
+        public RedisController(ILogger<RedisController> logger, IDistributedCache cache, IConfiguration configuration)
         {
+            this.logger = logger;
             this.cache = cache;
+            this.configuration = configuration;
         }
 
         [HttpGet("{key}")]
@@ -35,6 +41,7 @@ namespace Hero.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RedisModel model, CancellationToken cancellationToken = default)
         {
+
             var key = Guid.NewGuid().ToString();
             await this.cache.SetStringAsync(key, model.Value, new DistributedCacheEntryOptions()
             {
