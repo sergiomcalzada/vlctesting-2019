@@ -9,6 +9,7 @@ $dir = Split-Path $PSScriptRoot -Parent
 
 Write-Host "Starting environment"
 docker-compose -f $PSScriptRoot\docker-compose.yml up -d
+Start-Sleep -Seconds 5
 
 $files = get-childitem $Invocation.MyCommand.Path -recurse -Include *.WebTest.csproj
 
@@ -28,4 +29,4 @@ $files | % {
 }
 
 Write-Host "Stopping environment"
-docker-compose -f $PSScriptRoot\docker-compose.yml down
+#docker-compose -f $PSScriptRoot\docker-compose.yml down
